@@ -1,0 +1,12 @@
+{
+  "name": "artemis-control",
+  "version": "1.0.0",
+  "description": "Arthemis controll monorepo",
+  "scripts": {},
+  "keywords": [
+    "NASA",
+    "Arthemis"
+  ],
+  "author": "Ivad",
+  "license": "ISC"
+}

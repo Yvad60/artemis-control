@@ -1,2 +1,3 @@
-# artemis-control
-Humanity's return to the moon 🚀 🌙 
+# Artemis control
+
+Humanity's return to the moon 🚀 🌙

@@ -1,0 +1,7 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "Arthemis controll frontend",
+  "main": "index.js",
+  "scripts": {}
+}
