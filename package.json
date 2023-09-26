@@ -2,7 +2,14 @@
   "name": "artemis-control",
   "version": "1.0.0",
   "description": "Arthemis controll monorepo",
-  "scripts": {},
+  "scripts": {
+    "install-server": "cd server && pnpm install",
+    "install-client": "cd client && pnpm install",
+    "install": "pnpm install-server && pnpm install-client",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "watch": "npm run server & npm run client"
+  },
   "keywords": [
     "NASA",
     "Arthemis"
