@@ -36,4 +36,6 @@ export function loadPlanetsData(): Promise<void> {
   });
 }
 
+export const getHabitablePlanets = () => habitablePlanets;
+
 export default habitablePlanets;

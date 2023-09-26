@@ -1,3 +1,5 @@
+import { LaunchDto } from "../types/api";
+
 const API_URL = "http://localhost:5000";
 
 async function httpGetPlanets() {
@@ -5,9 +7,10 @@ async function httpGetPlanets() {
   return await response.json();
 }
 
-async function httpGetLaunches() {
-  // TODO: Once API is ready.
-  // Load launches, sort by flight number, and return as JSON.
+async function httpGetLaunches(): Promise<LaunchDto[]> {
+  const response = await fetch(`${API_URL}/launches`);
+  const launches: LaunchDto[] = await response.json();
+  return launches.sort((a, b) => a.flightNumber - b.flightNumber);
 }
 
 async function httpSubmitLaunch(launch) {

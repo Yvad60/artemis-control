@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getLaunches } from "./launches.controller";
+import { httpAddLaunch, httpGetLaunches } from "./launches.controller";
 
 const launchesRouter = Router();
 
-launchesRouter.get("/launches", getLaunches);
+launchesRouter.get("/", httpGetLaunches);
+launchesRouter.post("/", httpAddLaunch);
 
 export default launchesRouter;
