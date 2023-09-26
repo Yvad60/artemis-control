@@ -6,10 +6,10 @@ export interface Launch {
   destination: string;
   customers: string[];
   upcoming: boolean;
-  successs: boolean;
+  success: boolean;
 }
 
 export interface FrontendLaunch
-  extends Omit<Launch, "launchDate" | "flightNumber" | "customers" | "upcoming" | "successs"> {
+  extends Omit<Launch, "launchDate" | "flightNumber" | "customers" | "upcoming" | "success"> {
   launchDate: "string";
 }

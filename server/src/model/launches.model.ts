@@ -10,23 +10,37 @@ const launch = {
   destination: "Kepler-1652 b",
   customers: ["ZTM", "NASA"],
   upcoming: true,
-  successs: true,
+  success: true,
 };
 
 launches.set(launch.flightNumber, launch);
 
 export const getLaunches = () => Array.from(launches.values());
+
 export const addLaunch = (launch: FrontendLaunch) => {
-  const lastLaunchFlightNumber = Array.from(launches.values()).pop()?.flightNumber || 9; // When launches are empty the default number will be 10 from 9 + 1 = 10
+  let lastLaunchFlightNumber = Array.from(launches.values()).pop()?.flightNumber || 9; // When launches are empty the default number will be 10 from 9 + 1 = 10
   const cleanLaunchData = { ...launch, launchDate: new Date(launch.launchDate) };
+
+  lastLaunchFlightNumber++;
   launches.set(
     lastLaunchFlightNumber,
     Object.assign(cleanLaunchData, {
-      flightNumber: lastLaunchFlightNumber + 1,
+      flightNumber: lastLaunchFlightNumber,
       customers: ["ZTM", "NASA"],
       upcoming: true,
-      successs: true,
+      success: true,
     })
   );
+
   return launches.get(lastLaunchFlightNumber);
+};
+
+export const existsLaunchWithId = (launchId: number) => launches.has(launchId);
+
+export const abortLaunchById = (launchId: number) => {
+  const abortedLaunch = launches.get(launchId);
+  if (abortedLaunch == null) return null;
+  abortedLaunch.upcoming = false;
+  abortedLaunch.success = false;
+  return abortedLaunch;
 };
