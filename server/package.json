@@ -6,8 +6,9 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "dev": "npx nodemon",
-    "build": "rimraf ./dist && tsc",
-    "start": "node dist/server.js"
+    "build": "rimraf ./dist && tsc && npx copyfiles src/data/planets-data.csv --up 2 dist/data",
+    "start": "node dist/server.js",
+    "cluster": "pm2 start dist/server.js -i max"
   },
   "devDependencies": {
     "@types/cors": "^2.8.14",
@@ -25,9 +26,12 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "csv-parse": "^5.5.0",
     "express": "^4.18.2",
-    "morgan": "^1.10.0"
+    "mongoose": "^7.5.3",
+    "morgan": "^1.10.0",
+    "pm2": "^5.3.0"
   }
 }
