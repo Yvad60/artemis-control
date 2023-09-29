@@ -1,12 +1,13 @@
 import { parse } from "csv-parse";
 import fs from "fs";
 import path from "path";
-import { Planet } from "../data/types";
+import { Planet as PlanetType } from "../data/types";
+import Planet from "./planets.mongo";
 
 const documentStream = fs.createReadStream(path.join(__dirname, "..", "data", "planets-data.csv"));
-const habitablePlanets: Planet[] = [];
+const habitablePlanets: PlanetType[] = [];
 
-const isPlanetHabbitable = (planet: Planet) => {
+const isPlanetHabbitable = (planet: PlanetType) => {
   return (
     planet.koi_disposition === "CONFIRMED" &&
     +planet.koi_insol > 0.36 &&
@@ -24,8 +25,11 @@ export function loadPlanetsData(): Promise<void> {
           columns: true,
         })
       )
-      .on("data", (chunk: Planet) => {
-        if (isPlanetHabbitable(chunk)) habitablePlanets.push(chunk);
+      .on("data", async (chunk: PlanetType) => {
+        if (isPlanetHabbitable(chunk)) {
+          habitablePlanets.push(chunk);
+          await Planet.create({ kepler_name: chunk.kepler_name });
+        }
       })
       .on("end", () => {
         resolve();

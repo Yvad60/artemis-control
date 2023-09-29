@@ -7,9 +7,30 @@ const launchSchema = new mongoose.Schema({
   },
   mission: {
     type: String,
-    required: false,
+    required: true,
   },
-  rocket: String,
-  launchDate: Date,
-  destination: String,
+  rocket: {
+    type: String,
+    required: true,
+  },
+  launchDate: {
+    type: Date,
+    required: true,
+  },
+  destination: {
+    type: String,
+    required: true,
+  },
+  upcoming: {
+    type: Boolean,
+    required: true,
+  },
+  success: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  customers: [String],
 });
+
+export default mongoose.model("Launch", launchSchema);
