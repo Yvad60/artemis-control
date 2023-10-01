@@ -5,7 +5,6 @@ import { Planet as PlanetType } from "../data/types";
 import Planet from "./planets.mongo";
 
 const documentStream = fs.createReadStream(path.join(__dirname, "..", "data", "planets-data.csv"));
-const habitablePlanets: PlanetType[] = [];
 
 const isPlanetHabbitable = (planet: PlanetType) => {
   return (
@@ -14,6 +13,14 @@ const isPlanetHabbitable = (planet: PlanetType) => {
     +planet.koi_insol < 1.11 &&
     +planet.koi_prad < 1.6
   );
+};
+
+const savePlanet = async ({ kepler_name }: PlanetType) => {
+  try {
+    await Planet.updateOne({ kepler_name }, { kepler_name }, { upsert: true });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export function loadPlanetsData(): Promise<void> {
@@ -26,10 +33,7 @@ export function loadPlanetsData(): Promise<void> {
         })
       )
       .on("data", async (chunk: PlanetType) => {
-        if (isPlanetHabbitable(chunk)) {
-          habitablePlanets.push(chunk);
-          await Planet.create({ kepler_name: chunk.kepler_name });
-        }
+        if (isPlanetHabbitable(chunk)) savePlanet(chunk);
       })
       .on("end", () => {
         resolve();
@@ -40,6 +44,7 @@ export function loadPlanetsData(): Promise<void> {
   });
 }
 
-export const getHabitablePlanets = () => habitablePlanets;
-
-export default habitablePlanets;
+export const getHabitablePlanets = async () => {
+  const planets = await Planet.find({}, { __v: 0 });
+  return planets;
+};
