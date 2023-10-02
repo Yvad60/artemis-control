@@ -1,5 +1,6 @@
 import { createServer } from "http";
 import app from "./app";
+import { loadLaunchesData } from "./model/launches.model";
 import { loadPlanetsData } from "./model/planets.model";
 import { connectToMongoDb } from "./services/mongo";
 
@@ -8,6 +9,7 @@ const server = createServer(app);
 
 const startServer = async () => {
   await loadPlanetsData();
+  await loadLaunchesData();
   await connectToMongoDb();
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

@@ -8,7 +8,7 @@ describe("Launches API test", () => {
   });
 
   describe("Test GET /launches ", () => {
-    const response = request(app).get("/launches");
+    const response = request(app).get("/v1/launches");
     it("Should respond with 200 status code", async () => {
       await response.expect(200);
     });
@@ -39,7 +39,7 @@ describe("Launches API test", () => {
       launchDate: "Invalid date",
     };
 
-    const response = request(app).post("/launches").send(validLaunch);
+    const response = request(app).post("/v1/launches").send(validLaunch);
     it("Should respond with 200 status code", async () => {
       await response.expect(201);
     });
@@ -54,12 +54,12 @@ describe("Launches API test", () => {
       expect(new Date(body.launchDate).valueOf()).toBe(new Date(validLaunch.launchDate).valueOf());
     });
     it("Should catch missing launch inputs", async () => {
-      const response = request(app).post("/launches").send(launchWithoutDate);
+      const response = request(app).post("/v1/launches").send(launchWithoutDate);
       const body = (await response).body;
       expect(body).toStrictEqual({ error: "Missing required input" });
     });
     it("Should catch invalid date launch", async () => {
-      const response = request(app).post("/launches").send(launchWithInvalidDate);
+      const response = request(app).post("/v1/launches").send(launchWithInvalidDate);
       const body = (await response).body;
       expect(body).toStrictEqual({ error: "Invalid launch date" });
     });

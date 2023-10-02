@@ -1,4 +1,5 @@
-import { FrontendLaunch, Launch as LaunchType } from "../types";
+import axios from "axios";
+import { FrontendLaunch, Launch as LaunchType, SpaceXLaunchResponse } from "../types";
 import Launch from "./launches.mongo";
 import Planet from "./planets.mongo";
 
@@ -45,6 +46,43 @@ export const addLaunch = async (launch: FrontendLaunch) => {
       success: true,
     })
   );
+};
+
+export const loadLaunchesData = async () => {
+  const SPACE_X_API = "https://api.spacexdata.com/v4/launches/query";
+  const response = await axios.post<SpaceXLaunchResponse>(SPACE_X_API, {
+    query: {},
+    options: {
+      populate: [
+        {
+          path: "rocket",
+          select: {
+            name: 1,
+          },
+        },
+        {
+          path: "payloads",
+          select: {
+            customers: 1,
+          },
+        },
+      ],
+    },
+  });
+  const launchDocs = response.data.docs;
+  launchDocs.forEach((launchDoc) => {
+    const launch: LaunchType = {
+      flightNumber: launchDoc.flight_number,
+      mission: launchDoc.name,
+      launchDate: new Date(launchDoc.date_local),
+      upcoming: launchDoc.upcoming,
+      success: launchDoc.success,
+      rocket: launchDoc.rocket.name,
+      destination: launchDoc.rocket.name,
+      customers: launchDoc.payloads.flatMap((payload) => payload.customers),
+    };
+    console.log("dowloading data...s", launch);
+  });
 };
 
 export const existsLaunchWithId = async (launchId: number) =>
