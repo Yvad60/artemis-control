@@ -3,7 +3,7 @@ export interface Launch {
   mission: string;
   rocket: string;
   launchDate: Date | null;
-  destination: string;
+  destination?: string; // Launches from space x does not have destination planets
   customers: string[];
   upcoming: boolean;
   success: boolean;

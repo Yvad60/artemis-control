@@ -9,8 +9,9 @@ const server = createServer(app);
 
 const startServer = async () => {
   await loadPlanetsData();
-  await loadLaunchesData();
   await connectToMongoDb();
+  await loadLaunchesData();
+  
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
