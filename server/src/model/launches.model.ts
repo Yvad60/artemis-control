@@ -3,17 +3,6 @@ import { FrontendLaunch, Launch as LaunchType, SpaceXLaunchResponse } from "../t
 import Launch from "./launches.mongo";
 import Planet from "./planets.mongo";
 
-const launch = {
-  flightNumber: 10,
-  mission: "Explorer IS1",
-  rocket: "Explorer IS1",
-  launchDate: new Date("2024-03-25"),
-  destination: "Kepler-1652 b",
-  customers: ["ZTM", "NASA"],
-  upcoming: true,
-  success: true,
-};
-
 const saveLaunch = async (launch: LaunchType) => {
   return await Launch.findOneAndUpdate({ flightNumber: launch.flightNumber }, launch, {
     upsert: true,
@@ -21,15 +10,15 @@ const saveLaunch = async (launch: LaunchType) => {
   });
 };
 
-saveLaunch(launch);
-
 const getLatestFlightNumber = async () => {
   const DEFAULT_FLIGHT_NUMBER = 100;
   const latestLaunch = await Launch.findOne({}).sort("-flightNumber");
   return latestLaunch?.flightNumber ?? DEFAULT_FLIGHT_NUMBER;
 };
 
-export const getLaunches = async () => await Launch.find({});
+export const getLaunches = async (skip: number, limit: number) => {
+  return await Launch.find({}).skip(skip).limit(limit).sort({ flightNumber: 1 });
+};
 
 const populateLaunches = async () => {
   const SPACE_X_API = "https://api.spacexdata.com/v4/launches/query";

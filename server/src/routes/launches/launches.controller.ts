@@ -5,10 +5,17 @@ import {
   existsLaunchWithId,
   getLaunches,
 } from "../../model/launches.model";
+import { getPagination } from "../../services/query";
 import { FrontendLaunch } from "../../types";
 
-export const httpGetLaunches: RequestHandler = async (req, res) => {
-  const launches = await getLaunches();
+export const httpGetLaunches: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  { limit: string | undefined; page: string | undefined }
+> = async (req, res) => {
+  const { limit, skip } = getPagination(req.query);
+  const launches = await getLaunches(skip, limit);
   return res.status(200).json(launches);
 };
 

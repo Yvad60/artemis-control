@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createServer } from "http";
 import app from "./app";
 import { loadLaunchesData } from "./model/launches.model";
@@ -11,7 +12,7 @@ const startServer = async () => {
   await loadPlanetsData();
   await connectToMongoDb();
   await loadLaunchesData();
-  
+
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
