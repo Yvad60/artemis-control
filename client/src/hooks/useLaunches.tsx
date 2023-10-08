@@ -21,7 +21,7 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
       e.preventDefault();
       setPendingLaunch(true);
       const data = new FormData(e.target);
-      const launchDate = new Date(data.get("launch-day"));
+      const launchDate = new Date(data.get("launch-day") as string);
       const mission = data.get("mission-name");
       const rocket = data.get("rocket-name");
       const destination = data.get("planets-selector");
