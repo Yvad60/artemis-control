@@ -6,7 +6,7 @@ import { LaunchDto } from "../types/api";
 
 interface UpcomingProps {
   launches: LaunchDto[];
-  [x: string | number | symbol]: unknown;
+  [x: string | number | symbol]: any;
 }
 
 const styles = () => ({
