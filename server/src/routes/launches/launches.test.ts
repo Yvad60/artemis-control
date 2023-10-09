@@ -1,21 +1,18 @@
-import 'dotenv/config';
+import "dotenv/config";
 import request from "supertest";
 import app from "../../app";
-import { connectToMongoDb, disconnectFromMongoDb } from "../../services/mongo";
+import { loadPlanetsData } from "../../model/planets.model";
+import { connectToMongoDb } from "../../services/mongo";
 
 describe("Launches API test", () => {
   beforeAll(async () => {
     await connectToMongoDb();
-  });
-
-  afterAll(async () => {
-    await disconnectFromMongoDb();
+    await loadPlanetsData();
   });
 
   describe("Test GET /launches ", () => {
     const response = request(app).get("/v1/launches");
     it("Should respond with 200 status code", async () => {
-      console.log("here iss mine", await response.expect(200));
       await response.expect(200);
     });
 
