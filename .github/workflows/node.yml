@@ -20,9 +20,9 @@ jobs:
           version: 8
       - name: "build client"
         run: "cd client && pnpm install && pnpm run build"
-      - name: "Run tests"
-        run: "cd server && pnpm install && pnpm run test"
       - name: "Setup MongoDB"
         uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-version: "5.0"
+      - name: "Run tests"
+        run: "cd server && pnpm install && pnpm run test"
