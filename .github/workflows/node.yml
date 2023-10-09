@@ -19,4 +19,4 @@ jobs:
       - name: "build client"
         run: "cd client && pnpm install && pnpm run build"
       - name: "Run tests"
-        run: "cd server && pnpm run test"
+        run: "cd server && pnpm install && pnpm run test"
