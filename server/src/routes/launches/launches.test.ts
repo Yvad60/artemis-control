@@ -2,12 +2,16 @@ import "dotenv/config";
 import request from "supertest";
 import app from "../../app";
 import { loadPlanetsData } from "../../model/planets.model";
-import { connectToMongoDb } from "../../services/mongo";
+import { connectToMongoDb, disconnectFromMongoDb } from "../../services/mongo";
 
 describe("Launches API test", () => {
   beforeAll(async () => {
     await connectToMongoDb();
     await loadPlanetsData();
+  });
+
+  afterAll(async () => {
+    await disconnectFromMongoDb();
   });
 
   describe("Test GET /launches ", () => {
